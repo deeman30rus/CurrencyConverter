@@ -35,4 +35,5 @@
     <string name="_try">Turkish lira</string>
     <string name="usd">United States dollar</string>
     <string name="zar">South African rand</string>
+    <string name="dna_message">Data is not available</string>
 </resources>

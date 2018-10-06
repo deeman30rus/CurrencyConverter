@@ -1,6 +1,5 @@
 package com.delizarov.revolutcurrncies.data.repository.impl
 
-import android.util.Log
 import com.delizarov.revolutcurrncies.data.network.RevolutApi
 import com.delizarov.revolutcurrncies.data.repository.Repository
 import com.delizarov.revolutcurrncies.domain.ExchangeRates
@@ -57,7 +56,7 @@ class RepositoryImpl(
     }
 }
 
-private fun infiniteThread(block: () -> Unit) = thread {
+private fun infiniteThread(block: () -> Unit) = thread(start = false) {
 
     while (true)
         block.invoke()

@@ -19,26 +19,38 @@ import com.delizarov.revolutcurrncies.viewmodels.CurrencyViewModel
 import io.reactivex.disposables.Disposable
 
 class CurrencyListAdapter(
-        private val currencies: CurrencyList,
         private val context: Context
 ) : RecyclerView.Adapter<CurrencyViewHolder>() {
 
     private val responderValueSource = FloatValueSource()
-    private var disposable: Disposable? = null
+
+    private var responseValueDisposable: Disposable? = null
+    private var currenciesDisposable: Disposable? = null
+
+    var currencies: CurrencyList = CurrencyList(ExchangeRates())
+        set(value) {
+
+            unsubscribe()
+
+            field = value
+
+            currenciesDisposable?.dispose()
+            currenciesDisposable = field
+                    .observable
+                    .subscribe { range ->
+                        notifyItemRangeChanged(range.start, range.endInclusive)
+                    }
+
+            subscribe()
+
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
 
         val inflater = LayoutInflater.from(context)
 
         return CurrencyViewHolder(inflater.inflate(R.layout.viewholder_currency, parent, false))
-    }
-
-    init {
-        currencies
-                .observable
-                .subscribe { range -> notifyItemRangeChanged(range.start, range.endInclusive) }
-
-        subscribe()
     }
 
     override fun onBindViewHolder(holder: CurrencyViewHolder, position: Int) {
@@ -59,7 +71,6 @@ class CurrencyListAdapter(
             } else {
                 if (responderValueSource.source == null) {
                     responderValueSource.source = amount
-                    subscribe()
                 }
             }
         }
@@ -82,7 +93,7 @@ class CurrencyListAdapter(
 
     private fun subscribe() {
 
-        disposable = responderValueSource
+        responseValueDisposable = responderValueSource
                 .observable
                 .subscribe { value ->
                     currencies.baseAmount = value
@@ -91,7 +102,7 @@ class CurrencyListAdapter(
 
     private fun unsubscribe() {
 
-        disposable?.dispose()
+        responseValueDisposable?.dispose()
         responderValueSource.source = null
     }
 }
@@ -109,7 +120,7 @@ class CurrencyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         shortName.text = viewModel.currency1
         fullName.text = viewModel.fullName
-        amount.setText(viewModel.amount.toString())
+        amount.setText(String.format("%.2f", viewModel.amount))
 
         amount.isEnabled = viewModel.isResponder
     }

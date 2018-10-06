@@ -1,10 +1,12 @@
 package com.delizarov.revolutcurrncies.ui.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,9 +16,11 @@ import com.delizarov.revolutcurrncies.domain.ExchangeRates
 import com.delizarov.revolutcurrncies.extentions.bind
 import com.delizarov.revolutcurrncies.extentions.onClick
 import com.delizarov.revolutcurrncies.extentions.toViewModel
+import com.delizarov.revolutcurrncies.ui.activities.MainActivity
 import com.delizarov.revolutcurrncies.ui.observables.FloatValueSource
 import com.delizarov.revolutcurrncies.viewmodels.CurrencyViewModel
 import io.reactivex.disposables.Disposable
+
 
 class CurrencyListAdapter(
         private val context: Context
@@ -81,6 +85,9 @@ class CurrencyListAdapter(
 
         if (holder.amount == responderValueSource.source) {
             unsubscribe()
+
+            val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow((context as MainActivity).currentFocus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
     }
 

@@ -1,12 +1,12 @@
 package com.delizarov.revolutcurrncies.viewmodels
 
 import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
-import com.delizarov.revolutcurrncies.domain.Currency
+import com.delizarov.revolutcurrncies.domain.Currency1
 
 class CurrencyViewModel(
-        val currency: Currency,
+        val currency1: Currency1,
         val fullName: String,
         val icon: Drawable,
-        var amount: Float
+        var amount: Float,
+        var isResponder: Boolean
 )

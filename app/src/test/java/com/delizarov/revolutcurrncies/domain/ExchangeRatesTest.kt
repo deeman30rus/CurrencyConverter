@@ -1,51 +1,60 @@
 package com.delizarov.revolutcurrncies.domain
 
+import com.delizarov.revolutcurrncies.*
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 
-const val EPS = 0.00001
-
 class ExchangeRatesTest {
+
+    private lateinit var exchangeRates: ExchangeRates
+    private lateinit var emptyRates: ExchangeRates
+
+    @Before
+    fun `prepare dataset`() {
+
+        val rates = mapOf(
+                RUB to RUB_TO_EUR_RATE_1,
+                USD to USD_TO_EUR_RATE_1
+        )
+
+        exchangeRates = ExchangeRates(EUR, rates)
+        emptyRates = ExchangeRates()
+    }
 
     @Test
     fun `create empty object test`() {
 
-        val exchangeRates = ExchangeRates()
+        assertEquals(emptyList<Currency1>(), emptyRates.currencies)
+    }
 
-        assertEquals(emptySet<Currency>(), exchangeRates.currencies)
+    @Test
+    fun `get currencies test`() {
+
+        val expected = setOf(
+                EUR,
+                RUB,
+                USD
+        )
+
+        assertEquals(expected, exchangeRates.currencies.toSet())
     }
 
     @Test
     fun `exchange rate test`() {
 
-        val rubToEURRate = 76.39f
-        val usdToUSDRate = 1.16f
+        val expected = (RUB_TO_EUR_RATE_1 / USD_TO_EUR_RATE_1)
 
-        val rates = mapOf(
-                "RUB" to rubToEURRate,
-                "USD" to usdToUSDRate
-        )
-
-        val exchangeRates = ExchangeRates()
-        exchangeRates.updateRates("EUR", rates)
-
-        assertFloatingEquals((rubToEURRate / usdToUSDRate), exchangeRates.ratesFor("RUB" to "USD"))
+        assertEquals(expected, exchangeRates.ratesFor(RUB to USD))
     }
 
     @Test
     fun `same exchange test`() {
 
-        val rubToEURRate = 76.39f
+        val expected = 1f
 
-        val rates = mapOf("RUB" to rubToEURRate)
-
-        val exchangeRates = ExchangeRates()
-        exchangeRates.updateRates("EUR", rates)
-
-        assertFloatingEquals(1f, exchangeRates.ratesFor("EUR" to "EUR"))
-        assertFloatingEquals(1f, exchangeRates.ratesFor("RUB" to "RUB"))
+        assertEquals(expected, exchangeRates.ratesFor(EUR to EUR))
+        assertEquals(expected, exchangeRates.ratesFor(RUB to RUB))
     }
-
-    private fun assertFloatingEquals(num1: Float, num2: Float) = assertTrue(num1 - num2 < EPS)
 }

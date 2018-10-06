@@ -11,4 +11,4 @@ fun <T : View> AppCompatActivity.bind(@IdRes id: Int) = unsafeLazy { findViewByI
 
 fun <T : View> RecyclerView.ViewHolder.bind(@IdRes id: Int) = unsafeLazy { itemView.findViewById<T>(id) }
 
-fun RecyclerView.ViewHolder.onClick(block: (View)-> Unit) = itemView.setOnClickListener { block.invoke(itemView) }
+fun RecyclerView.ViewHolder.onClick(block: (View) -> Unit) = itemView.setOnClickListener { block.invoke(itemView) }

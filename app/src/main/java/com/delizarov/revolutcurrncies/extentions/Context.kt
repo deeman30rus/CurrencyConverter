@@ -3,10 +3,10 @@ package com.delizarov.revolutcurrncies.extentions
 import android.content.Context
 import android.graphics.drawable.Drawable
 import com.delizarov.revolutcurrncies.R
-import com.delizarov.revolutcurrncies.domain.Currency
+import com.delizarov.revolutcurrncies.domain.Currency1
 
-fun Context.getFullNameForCurrency(currency: Currency): String =
-        when (currency) {
+fun Context.getFullNameForCurrency(currency1: Currency1): String =
+        when (currency1) {
             "EUR" -> resources.getString(R.string.eur)
             "AUD" -> resources.getString(R.string.aud)
             "BGN" -> resources.getString(R.string.bgn)
@@ -43,8 +43,8 @@ fun Context.getFullNameForCurrency(currency: Currency): String =
             else -> ""
         }
 
-fun Context.getIconResForCurrency(currency: Currency): Drawable =
-        when (currency) {
+fun Context.getIconResForCurrency(currency1: Currency1): Drawable =
+        when (currency1) {
             "EUR" -> resources.getDrawable(R.drawable.icon_eur)
             "AUD" -> resources.getDrawable(R.drawable.icon_aud)
             "BGN" -> resources.getDrawable(R.drawable.icon_bgn)

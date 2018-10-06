@@ -12,40 +12,53 @@ import kotlin.concurrent.thread
 private const val UPDATE_RATE_MILLIS = 1000L
 
 class RepositoryImpl(
-        private val api: RevolutApi
+        private val api: RevolutApi,
+        private val updateRate: Long = UPDATE_RATE_MILLIS
 ) : Repository {
 
-    private val networkingThread = thread {
-        while (true) {
+    private val exchangeRatesBuf = SyncBuffer<ExchangeRates>()
 
-            val dto = try {
-                api.getLatestRates().execute().body()
-            } catch (ex: IOException) {
-                ex.printStackTrace()
-                null
-            }
+    private val networkingThread = infiniteThread {
 
-            if (dto != null)
-                exchangeRates.updateRates(dto.base, dto.rates)
-            
-
-            Thread.sleep(UPDATE_RATE_MILLIS)
+        val dto = try {
+            api.getLatestRates().execute().body()
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            null
         }
+
+        if (dto != null)
+            exchangeRatesBuf.write(ExchangeRates(dto.base, dto.rates))
+
+        Thread.sleep(updateRate)
     }
 
-    private val exchangeRates = ExchangeRates()
-
     init {
-
         networkingThread.start()
     }
 
     override val ratesObservable = Observable
-            .interval(1000L, TimeUnit.MILLISECONDS)
+            .interval(updateRate, TimeUnit.MILLISECONDS)
             .timeInterval()
-            .flatMap { _ -> Observable.just(exchangeRates) }
+            .flatMap { _ -> Observable.just(exchangeRatesBuf.read() ?: ExchangeRates()) }
 
+    private inner class SyncBuffer<T> {
+
+        private var obj: T? = null
+
+        fun write(obj: T?) = synchronized(this) {
+
+            this.obj = obj
+        }
+
+        fun read(): T? = synchronized(this) {
+            obj
+        }
+    }
 }
 
+private fun infiniteThread(block: () -> Unit) = thread {
 
-
+    while (true)
+        block.invoke()
+}

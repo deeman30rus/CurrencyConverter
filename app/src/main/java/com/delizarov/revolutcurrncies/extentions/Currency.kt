@@ -2,10 +2,13 @@ package com.delizarov.revolutcurrncies.extentions
 
 import android.content.Context
 import com.delizarov.revolutcurrncies.domain.Currency
+import com.delizarov.revolutcurrncies.viewmodels.CurrencyViewModel
 
-fun Currency.toViewModel(ctx: Context) = com.delizarov.revolutcurrncies.viewmodels.CurrencyViewModel(
-        this,
-        ctx.getFullNameForCurrency(this),
-        ctx.getIconResForCurrency(this),
-        0f
+
+fun Currency.toViewModel(ctx: Context, isResponder: Boolean) = CurrencyViewModel(
+        currency,
+        ctx.getFullNameForCurrency(currency),
+        ctx.getIconResForCurrency(currency),
+        amount,
+        isResponder
 )

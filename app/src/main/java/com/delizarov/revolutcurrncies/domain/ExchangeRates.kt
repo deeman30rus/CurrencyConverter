@@ -1,23 +1,23 @@
 package com.delizarov.revolutcurrncies.domain
 
-class ExchangeRates {
+class ExchangeRates(
+        var base: Currency1 = "",
+        rates: Map<Currency1, Float> = HashMap()
+) {
 
-    var base: Currency = ""
-    private val rates: MutableMap<Currency, Float> = HashMap()
+    private val rates: MutableMap<Currency1, Float> = HashMap()
 
-    val currencies: List<Currency>
-        get() {
-            return if (base.isEmpty()) emptyList() else listOf(base).union(rates.keys).toList()
-        }
-
-    fun updateRates(base: Currency, rates: Map<Currency, Float>) {
-        this.base = base
-
+    init {
         this.rates[this.base] = 1f
         this.rates.putAll(rates)
     }
 
-    fun ratesFor(pair: Pair<Currency, Currency>): Float {
+    val currencies: List<Currency1>
+        get() {
+            return if (base.isEmpty()) emptyList() else listOf(base).union(rates.keys).toList()
+        }
+
+    fun ratesFor(pair: Pair<Currency1, Currency1>): Float {
 
         val fromRate = rates[pair.first]
         val toRate = rates[pair.second]

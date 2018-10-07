@@ -42,7 +42,7 @@ class CurrencyListAdapter(
             currenciesDisposable = field
                     .observable
                     .subscribe { range ->
-                        notifyItemRangeChanged(range.start, range.endInclusive)
+                        notifyItemRangeChanged(range.start, range.endInclusive + 1)
                     }
 
             subscribe()
@@ -75,6 +75,7 @@ class CurrencyListAdapter(
             } else {
                 if (responderValueSource.source == null) {
                     responderValueSource.source = amount
+                    subscribe()
                 }
             }
         }
@@ -91,7 +92,6 @@ class CurrencyListAdapter(
     override fun getItemCount() = currencies.size
 
     fun updateExchangeRates(rates: ExchangeRates) {
-
         currencies.rates = rates
     }
 

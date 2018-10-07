@@ -27,7 +27,7 @@ class CurrencyList(
 
             list.bubbleUp(pos, 0)
 
-            observable.onNext(IntRange(0, pos + 1))
+            observable.onNext(IntRange(0, pos))
         }
 
     var baseAmount: Float

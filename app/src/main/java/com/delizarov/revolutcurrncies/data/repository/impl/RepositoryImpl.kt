@@ -6,6 +6,7 @@ import com.delizarov.revolutcurrncies.domain.ExchangeRates
 import io.reactivex.Observable
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.concurrent.thread
 
 private const val UPDATE_RATE_MILLIS = 1000L
@@ -15,7 +16,7 @@ class RepositoryImpl(
         private val updateRate: Long = UPDATE_RATE_MILLIS
 ) : Repository {
 
-    private val exchangeRatesBuf = SyncBuffer<ExchangeRates>()
+    private val ratesRef = AtomicReference<ExchangeRates>()
 
     private val networkingThread = infiniteThread {
 
@@ -27,7 +28,7 @@ class RepositoryImpl(
         }
 
         if (dto != null)
-            exchangeRatesBuf.write(ExchangeRates(dto.base, dto.rates))
+            ratesRef.set(ExchangeRates(dto.base, dto.rates))
 
         Thread.sleep(updateRate)
     }
@@ -39,21 +40,8 @@ class RepositoryImpl(
     override val ratesObservable = Observable
             .interval(updateRate, TimeUnit.MILLISECONDS)
             .timeInterval()
-            .flatMap { _ -> Observable.just(exchangeRatesBuf.read() ?: ExchangeRates()) }
+            .flatMap { _ -> Observable.just(ratesRef.get() ?: ExchangeRates()) }
 
-    private inner class SyncBuffer<T> {
-
-        private var obj: T? = null
-
-        fun write(obj: T?) = synchronized(this) {
-
-            this.obj = obj
-        }
-
-        fun read(): T? = synchronized(this) {
-            obj
-        }
-    }
 }
 
 private fun infiniteThread(block: () -> Unit) = thread(start = false) {

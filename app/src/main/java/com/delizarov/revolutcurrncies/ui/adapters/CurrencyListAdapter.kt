@@ -85,9 +85,6 @@ class CurrencyListAdapter(
 
         if (holder.amount == responderValueSource.source) {
             unsubscribe()
-
-            val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow((context as MainActivity).currentFocus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
     }
 

@@ -1,11 +1,12 @@
 package com.delizarov.revolutcurrncies.ui.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.delizarov.revolutcurrncies.App
 import com.delizarov.revolutcurrncies.R
@@ -37,6 +38,10 @@ class MainActivity : AppCompatActivity() {
 
         currencies.itemAnimator = null
         currencies.adapter = adapter
+        currencies.setOnTouchListener { v, _ ->
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
+        }
     }
 
     override fun onResume() {

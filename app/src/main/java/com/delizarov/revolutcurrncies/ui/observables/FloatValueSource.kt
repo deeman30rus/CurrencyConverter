@@ -5,7 +5,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import io.reactivex.subjects.PublishSubject
 
-private const val FLOAT_PATTERN = "\\d+\\.\\d{0,2}"
+private const val FLOAT_PATTERN = "\\d+\\.?\\d{0,2}"
 
 class FloatValueSource {
 

@@ -1,0 +1,82 @@
+package com.delizarov.revolutcurrencies.extentions
+
+import android.content.Context
+import android.graphics.drawable.Drawable
+import com.delizarov.revolutcurrencies.R
+import com.delizarov.revolutcurrencies.domain.Currency1
+
+fun Context.getFullNameForCurrency(currency1: Currency1): String =
+        when (currency1) {
+            "EUR" -> resources.getString(R.string.eur)
+            "AUD" -> resources.getString(R.string.aud)
+            "BGN" -> resources.getString(R.string.bgn)
+            "BRL" -> resources.getString(R.string.brl)
+            "CAD" -> resources.getString(R.string.cad)
+            "CHF" -> resources.getString(R.string.chf)
+            "CNY" -> resources.getString(R.string.cny)
+            "CZK" -> resources.getString(R.string.czk)
+            "DKK" -> resources.getString(R.string.dkk)
+            "GBP" -> resources.getString(R.string.gbp)
+            "HKD" -> resources.getString(R.string.hkd)
+            "HRK" -> resources.getString(R.string.hrk)
+            "HUF" -> resources.getString(R.string.huf)
+            "IDR" -> resources.getString(R.string.idr)
+            "ILS" -> resources.getString(R.string.ils)
+            "INR" -> resources.getString(R.string.inr)
+            "ISK" -> resources.getString(R.string.isk)
+            "JPY" -> resources.getString(R.string.jpy)
+            "KRW" -> resources.getString(R.string.krw)
+            "MXN" -> resources.getString(R.string.mxn)
+            "MYR" -> resources.getString(R.string.myr)
+            "NOK" -> resources.getString(R.string.nok)
+            "NZD" -> resources.getString(R.string.nzd)
+            "PHP" -> resources.getString(R.string.php)
+            "PLN" -> resources.getString(R.string.pln)
+            "RON" -> resources.getString(R.string.ron)
+            "RUB" -> resources.getString(R.string.rub)
+            "SEK" -> resources.getString(R.string.sek)
+            "SGD" -> resources.getString(R.string.sgd)
+            "THB" -> resources.getString(R.string.thb)
+            "TRY" -> resources.getString(R.string._try)
+            "USD" -> resources.getString(R.string.usd)
+            "ZAR" -> resources.getString(R.string.zar)
+            else -> ""
+        }
+
+fun Context.getIconResForCurrency(currency1: Currency1): Drawable =
+        when (currency1) {
+            "EUR" -> resources.getDrawable(R.drawable.icon_eur)
+            "AUD" -> resources.getDrawable(R.drawable.icon_aud)
+            "BGN" -> resources.getDrawable(R.drawable.icon_bgn)
+            "BRL" -> resources.getDrawable(R.drawable.icon_brl)
+            "CAD" -> resources.getDrawable(R.drawable.icon_cad)
+            "CHF" -> resources.getDrawable(R.drawable.icon_chf)
+            "CNY" -> resources.getDrawable(R.drawable.icon_cny)
+            "CZK" -> resources.getDrawable(R.drawable.icon_czk)
+            "DKK" -> resources.getDrawable(R.drawable.icon_dkk)
+            "GBP" -> resources.getDrawable(R.drawable.icon_gpb)
+            "HKD" -> resources.getDrawable(R.drawable.icon_hkd)
+            "HRK" -> resources.getDrawable(R.drawable.icon_hrk)
+            "HUF" -> resources.getDrawable(R.drawable.icon_huf)
+            "IDR" -> resources.getDrawable(R.drawable.icon_idr)
+            "ILS" -> resources.getDrawable(R.drawable.icon_ils)
+            "INR" -> resources.getDrawable(R.drawable.icon_inr)
+            "ISK" -> resources.getDrawable(R.drawable.icon_isk)
+            "JPY" -> resources.getDrawable(R.drawable.icon_jpy)
+            "KRW" -> resources.getDrawable(R.drawable.icon_krw)
+            "MXN" -> resources.getDrawable(R.drawable.icon_mxn)
+            "MYR" -> resources.getDrawable(R.drawable.icon_myr)
+            "NOK" -> resources.getDrawable(R.drawable.icon_nok)
+            "NZD" -> resources.getDrawable(R.drawable.icon_nzd)
+            "PHP" -> resources.getDrawable(R.drawable.icon_php)
+            "PLN" -> resources.getDrawable(R.drawable.icon_pln)
+            "RON" -> resources.getDrawable(R.drawable.icon_ron)
+            "RUB" -> resources.getDrawable(R.drawable.icon_rub)
+            "SEK" -> resources.getDrawable(R.drawable.icon_sek)
+            "SGD" -> resources.getDrawable(R.drawable.icon_sgd)
+            "THB" -> resources.getDrawable(R.drawable.icon_thb)
+            "TRY" -> resources.getDrawable(R.drawable.icon_try)
+            "USD" -> resources.getDrawable(R.drawable.icon_usd)
+            "ZAR" -> resources.getDrawable(R.drawable.icon_zar)
+            else -> resources.getDrawable(R.drawable.icon_currency_placeholder)
+        }

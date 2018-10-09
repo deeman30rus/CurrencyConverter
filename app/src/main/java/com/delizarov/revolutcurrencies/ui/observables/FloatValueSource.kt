@@ -5,7 +5,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import io.reactivex.subjects.PublishSubject
 
-private const val FLOAT_PATTERN = "\\d+\\.?\\d{0,2}"
+private const val FLOAT_PATTERN = "\\d*\\.?\\d{0,2}"
 
 class FloatValueSource {
 
@@ -26,7 +26,7 @@ class FloatValueSource {
 
             val str = s?.toString()
 
-            if (str != null && !regex.matches(str)) {
+            if (str != null && str.isNotEmpty() && !regex.matches(str)) {
 
                 val dotPos = str.indexOf('.')
 
